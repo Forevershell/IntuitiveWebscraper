@@ -5,8 +5,7 @@ import cache
 
 URL_YAHOO = "https://finance.yahoo.com/quote/%s/history?p=%s"
 
-def getPage(call_sign):
-    url = URL_YAHOO % (call_sign, call_sign)
+def getPage(url):
     try:
         response = urllib.request.urlopen(url)
     except:
@@ -18,8 +17,8 @@ def fix_errors(page):
     # For capturing edge cases in bs4 parser
     return page
 
-def parseYahoo(call_sign):
-    page = getPage(call_sign)
+def parseYahoo(ticker):
+    page = getPage(ticker)
     fix_errors(page)
     find_params   = {'data-test': 'historical-prices'}
     table_encoded = page.find(attrs = find_params)
@@ -46,7 +45,17 @@ def parseBody(header, table):
         data[day_encoded_list[0].string] = day_data
     return data
 
-def getCall(call_sign, cache):
-    return
-
-parseYahoo('FB')
+def getCall(ticker, cache):
+    cache = Cache(ticker + '.json')
+    if not (cache.cacheExists() and not cache.cacheExpired()):
+        print("hi")
+        headers = parseExchanges()
+        tickers = dict()
+        for header in headers:
+            header_tickers = dict()
+            for alpha in string.ascii_uppercase:
+                url = URL_COMBINE % (header, alpha)
+                header_tickers.update(parseTickers(url))
+            tickers[header] = header_tickers
+        cache.toCache(tickers)
+    return cache.fromCache()
