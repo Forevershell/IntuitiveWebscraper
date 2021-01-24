@@ -18,4 +18,5 @@ accordingly to adapt this sample project to your needs.
 
 The requirements of the project are all included in the `requirements.txt` file.
 Please run `pip install -r requirements.txt` to install the requirements
+
 ----
