@@ -1,0 +1,59 @@
+  
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Stock Watchlist</title>
+{% endblock %}
+
+{% block body %}
+{% include "nav.html" %}
+<div class="content">
+    <h1 style="text-align: center">Stock Watchlist</h1>
+    {% if stocks|length < 1 %}
+    <h4 style="text-align: center">No stocks on watchlist</h4>
+    {% else %}
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Open</th>
+            <th>High</th>
+            <th>Low</th>
+            <th>Close</th>
+            <th>Volume</th>
+            <th>Options</th>
+        </tr>
+        {% for stock in stocks %}
+            <tr>
+                <td>{{ stock['name'] }}</td>
+                <td>{{ stock['open'] }}</td>
+                <td>{{ stock['high'] }}</td>
+                <td>{{ stock['low'] }}</td>
+                <td>{{ stock['close'] }}</td>
+                <td>{{ stock['volume'] }}</td>
+                <td>
+                    <a href="/delete/{{stock.name}}">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <div class="section">
+        <div class="row">
+            <form action="/" method="POST">
+                <div class="input-field col offset-s3 s6 center-align">
+                    <input id="ticker" name="ticker" type="text">
+                    <label for="ticker">Ticker Symbol</label>
+                </div>
+                <div class="input-field col offset-s3 s6 center-align">
+                    <button class="waves-effect waves-light btn-large" type="submit" name="action">
+                        Add Your Ticker
+                        <i class="material-icons right">add_box</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% include "footer.html" %}
+{% endblock %}

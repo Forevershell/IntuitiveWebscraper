@@ -1,0 +1,33 @@
+  
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Ticker</title>
+{% endblock %}
+
+{% block body %}
+{% include "nav.html" %}
+<div class="content">
+    <h1 style="text-align: center">Tickers in {{ exchange }}</h1>
+    <h3 style="text-align: center">Please click on a name to add it to your watchlist</h3>
+    {% if tickers|length < 1 %}
+    <h4 style="text-align: center">No tickers can be parsed for this exchange</h4>
+    {% else %}
+    <table>
+        <tr>
+            <th>Ticker</th>
+            <th>Name</th>
+        </tr>
+        {% for ticker in tickers %}
+            <tr>
+                <td>{{ ticker }}</td>
+                <td>
+                    <a href="/stock/{{exchange}}/{{ticker}}">{{ tickers[ticker] }}</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
+{% include "footer.html" %}
+{% endblock %}

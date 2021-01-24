@@ -1,0 +1,39 @@
+  
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Exchanges</title>
+{% endblock %}
+
+{% block body %}
+{% include "nav.html" %}
+<div class="content">
+    <h1 style="text-align: center">Exchanges</h1>
+    {% if exchanges|length < 1 %}
+    <h4 style="text-align: center">No Exchanges Parsed</h4>
+    {% else %}
+    <h5 style="text-align: center">Please select the exchange for your ticker</h5>
+    <div class="row">
+        <div class="col s6">
+            <ul>
+                {% for exchange in exchanges[0:((exchanges|length/2)|int)] %}
+                    <li class="center-align">
+                        <h6><a href="/stocks/{{ exchange }}">{{ exchange }}</a></h6>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col s6">
+            <ul>
+                {% for exchange in exchanges[((exchanges|length/2)|int):] %}
+                    <li class="center-align">
+                        <h6><a href="/stocks/{{ exchange }}">{{ exchange }}</a></h6>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% include "footer.html" %}
+{% endblock %}

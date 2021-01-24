@@ -1,13 +1,14 @@
 import os.path
 import json
 from datetime import date
-from utils import get_project_root
 from pathlib import Path
-
-SOURCES = Path(os.path.join(get_project_root(), "cache"))
+from intuitive_webscraper.utils import getProjectRoot, getCacheDir
 
 # A cache is internally stored as a json
 # Could improve to become SQL database, but for now it has data and a date
+# Updating logic is very convoluted with an SQL database, managing json is simpler
+# Cache are updated by the day every time the application loads
+# When any requests request a specific cache, it is either loaded or fetched from the scraper
 class Cache:
     def __init__(self, outfile):
         self.outfile = outfile
@@ -20,12 +21,11 @@ class Cache:
         result = dict()
         result['date'] = date.today().strftime("%d/%m/%Y")
         result['data'] = data
-        with open(os.path.join(SOURCES, self.outfile), 'w') as file:
-            print("sadas")
+        with open(os.path.join(getCacheDir(), self.outfile), 'w') as file:
             json.dump(result, file)
     
     def loadCache(self):
-        with open(os.path.join(SOURCES, self.outfile), 'r') as file:
+        with open(os.path.join(getCacheDir(), self.outfile), 'r') as file:
             dump = json.load(file)
         self.data = dump['data']
         self.date = dump['date']
@@ -36,14 +36,21 @@ class Cache:
         return self.data
         
     def cacheExists(self):
-        if Path(os.path.join(SOURCES, self.outfile)).exists():
+        if Path(os.path.join(getCacheDir(), self.outfile)).exists():
             return True
         else:
             return False
     
     def cacheExpired(self):
         return self.date != date.today().strftime("%d/%m/%Y")
-        
+
+    def cacheRemove(self):
+        file_path = os.path.join(getCacheDir(), self.outfile)
+        if Path(file_path).exists():
+            os.remove(file_path)
+        else:
+            print("The file does not exist")
+            
         
 
 

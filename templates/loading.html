@@ -1,0 +1,16 @@
+  
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Loading</title>
+{% endblock %}
+
+{% block body %}
+{% include "nav.html" %}
+<div class="content">
+    <h1 style="text-align: center">Loading, Come Back Later</h1>
+    <h4 style="text-align: center"><a href="/">Return to Watchlist</a></h4>
+    <h4 style="text-align: center"><a href="/stocks">Reload page</a></h4>
+</div>
+{% include "footer.html" %}
+{% endblock %}
