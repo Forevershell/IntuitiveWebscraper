@@ -72,4 +72,4 @@ def shutdown():
 if __name__ == "__main__":
     # Start updating tickers
     threading.Thread(target=getTickers).start()
-    app.run(debug=False, use_reloader=False)
+    app.run(debug=False, use_reloader=False, threaded = False)
