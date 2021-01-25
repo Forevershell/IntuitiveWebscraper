@@ -37,6 +37,9 @@ $ python3 app.py
 ```
 In any browser, go to `localhost:5000`
 
+If the tickers page is unavailable when the app is first launched, it will load
+once the application boots and is able to cache all tickers due to a slow task.
+
 ## Project Architecture
 ```
 IntuitiveWebscraper
