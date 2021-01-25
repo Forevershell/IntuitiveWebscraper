@@ -6,6 +6,7 @@ from intuitive_webscraper.parse_tickers import getTickers
 
 app = Flask(__name__)
 
+# Index Route / App Main Page
 @app.route('/', methods=['POST', 'GET'])
 def index():
     # If a new stock (based on symbol) is requested
@@ -30,7 +31,7 @@ def delete(name):
     except:
         return 'Problem deleting stock'
 
-# Stock is not found or other errors (Not valid ticker)
+# Error Page (Stock not found, etc.)
 @app.route('/error/<string:error>')
 def notFound(error):
     return render_template('error.html', error = error)
@@ -56,8 +57,17 @@ def listExchange(name):
 # Adding specific stock to the watchlist
 @app.route('/stocks/<string:exchange>/<string:ticker>')
 def addToWatchlist(exchange, ticker):
-    stock = process.getStock(ticker, exchange)
-    return redirect('/')
+    try:
+        stock = process.getStock(ticker)
+        return redirect('/')
+    except Exception as inst:
+        return redirect('/error/' + str(inst))
+
+# Shutting down the server
+@app.route('/shutdown', methods=['GET', 'POST'])
+def shutdown():
+    request.environ.get('werkzeug.server.shutdown')()
+    return render_template('bye.html') 
 
 if __name__ == "__main__":
     # Start updating tickers
