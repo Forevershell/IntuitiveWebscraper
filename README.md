@@ -26,14 +26,16 @@ The requirements of the project are all included in the `requirements.txt` file.
 Create an environment for the project via `venv`, and run `pip install -r requirements.txt`
 to install the requirements.  
 To run the application, simply run `app.py` in the project directory.
+Then, go to `localhost:5000` to start using the application
 
 To install and run, run in the project directory:
 ```
 $ python3 -m venv env
 $ source env/bin/activate(MacOS / Linux) or $ .\env\Scripts\activate(Windows)
 $ pip install -r requirements.txt
-$ python3 -m app.py
+$ python3 app.py
 ```
+In any browser, go to `localhost:5000`
 
 ## Project Architecture
 ```

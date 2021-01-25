@@ -73,9 +73,9 @@ def getTickers():
         cache.cacheRemove()
         # Threading preparation
         # CPU count (number of threads)
-        count = cpu_count()
+        count = cpu_count() - 4
         # Default count is 4 CPUs
-        if count is None:
+        if count is None or count < 4:
             count = 4
         # Mutex for dictionary access
         lock = threading.Lock()
